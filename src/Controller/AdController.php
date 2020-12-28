@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Form\AdType;
 use App\Repository\AdRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdController extends AbstractController
@@ -24,6 +28,53 @@ class AdController extends AbstractController
     }
 
     /**
+     * Permet de créer une annonce
+     * @Route("/ads/create",name="app_ads_create")
+     */
+    public function create(Request $request, EntityManagerInterface $em): Response
+    {
+        $ad = new Ad;
+        // Ancienne m"thode sans avoir a utiliser AdType
+        // $form = $this->createFormBuilder($ad)
+        //                 ->add('title')
+        //                 ->add('introduction')
+        //                 ->add('content')
+        //                 ->add('rooms')
+        //                 ->add('price')
+        //                 ->add('coverImage')
+        //                 ->add('save', SubmitType::class, [
+        //                     'label' => 'Créer la nouvelle annonce',
+        //                     'attr' => [
+        //                         'class' => 'btn btn-primary'
+        //                     ]
+        //                 ])
+        //                 ->getForm();
+
+        $form = $this->createForm(AdType::class, $ad);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em->persist($ad);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                "L'annonce <strong>{$ad->getTitle()}</strong> a bien été enregistrée !"
+            );
+
+            return $this->redirectToRoute('app_ads_show', [
+                'slug' => $ad->getSlug()
+            ]);
+        }
+
+       return $this->render('ad/new.html.twig', [
+           'form' => $form->createView()
+       ]);
+    }
+
+    /**
      * Permet d'afficher une seule annonce avec l'utilisation du paramConverter 
      * 
      * @Route("/ads/{slug}", name="app_ads_show")
@@ -36,7 +87,7 @@ class AdController extends AbstractController
             'ad' => $ad
         ]);
     }
-    // Notre foction avant l'utilisation du paramConverter
+    // Notre fonction avant l'utilisation du paramConverter
     // public function show($slug, AdRepository $repo): Response
     // {
     //     $ad = $repo->findOneBySlug($slug);
@@ -45,4 +96,6 @@ class AdController extends AbstractController
     //         'ad' => $ad
     //     ]);
     // }
+
+    
 }
