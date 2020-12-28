@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Ad;
 use App\Form\AdType;
+use App\Entity\Image;
 use App\Repository\AdRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +35,11 @@ class AdController extends AbstractController
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $ad = new Ad;
-        // Ancienne m"thode sans avoir a utiliser AdType
+
+
+        /** 
+         * Ancienne m"thode sans avoir a utiliser AdType
+        */ 
         // $form = $this->createFormBuilder($ad)
         //                 ->add('title')
         //                 ->add('introduction')
@@ -56,6 +61,12 @@ class AdController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // Pour persister les images
+            foreach($ad->getImages() as $image) {
+                $image->setAd($ad);
+                $em->persist($image);
+            }
+
             $em->persist($ad);
             $em->flush();
 
@@ -72,6 +83,45 @@ class AdController extends AbstractController
        return $this->render('ad/new.html.twig', [
            'form' => $form->createView()
        ]);
+    }
+
+    /**
+     * Permet d'afficher le formulaire d'édition
+     *
+     * @Route("/ads/{slug}/edit", name="app_ads_edit")
+     * @return respose
+     */
+    public function edit(Ad $ad, Request $request, EntityManagerInterface $em)
+    {
+
+        $form = $this->createForm(AdType::class, $ad);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // Pour persister les images
+            foreach($ad->getImages() as $image) {
+                $image->setAd($ad);
+                $em->persist($image);
+            }
+
+            $em->persist($ad);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                "L'annonce <strong>{$ad->getTitle()}</strong> a bien été modifiée !"
+            );
+
+            return $this->redirectToRoute('app_ads_show', [
+                'slug' => $ad->getSlug()
+            ]);
+        }
+
+        return $this->render('ad/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
