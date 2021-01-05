@@ -49,18 +49,22 @@
                 </div>
             </div>
             <div class="col-md-6">
+                {# Déclaration du variable ad.author #}
+                {% set a = ad.author %}
                 <div class="row mb-3 align-items-center">
-                    <div class="col-md-6">
-                        <img src="/img/avatar.PNG" alt="Avatar" style="height: 64%; width: 64%;">
+                    <div class="col-md-3">
+                        <a href="{{ path('app_user_show', {'slug': a.slug}) }}">
+                            <img src="{{a.picture}}" class="avatar avatar-medium"  alt="Avatar de {{a.fullName}}" style="height: 64%; width: 64%;">
+                        </a>
                     </div>
-                    <div class="col-md-6">
-                        <h3>Riba Sergino</h3>
-                        <span class="badge badge-primary">3 Annonces</span>
+                    <div class="col-md-9">
+                        <a href="{{ path('app_user_show', {'slug': a.slug}) }}">
+                            <h3>{{a.fullName}}</h3>
+                        </a>
+                        <span class="badge badge-primary">{{a.ads | length}} Annonces</span>
                     </div>
                 </div>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam nam ipsa veniam suscipit hic dignissimos ex quibusdam veritatis. Ab, doloribus?</p>
-                <p>Quidem perspiciatis provident adipisci, fuga praesentium asperiores culpa laudantium expedita aspernatur. Doloremque quasi sit architecto, recusandae ratione voluptatum corrupti numquam.</p>
-                <p>Ducimus cumque autem laborum repudiandae illo error distinctio vitae praesentium recusandae. Deserunt ea delectus libero mollitia? In quaerat laboriosam saepe.</p>
+                {{ a.description | raw }}
             </div>
         </div>
     </div>
