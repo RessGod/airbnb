@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\PrePersist;
 use App\Repository\BookingRepository;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -36,7 +37,7 @@ class Booking
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface", message="Attention, la date d'arrivée doit être au bon format !")
-     * @Assert\GreaterThan("today", message="La date d'arrivée doit être ultérieur à celle d'aujourd'hui !")
+     * @Assert\GreaterThan("today", message="La date d'arrivée doit être ultérieur à celle d'aujourd'hui !", groups={"front"})
      */
     private $startDate;
 
@@ -64,6 +65,7 @@ class Booking
 
     /**
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      *
      * @return void
      */

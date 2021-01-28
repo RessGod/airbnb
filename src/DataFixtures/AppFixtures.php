@@ -9,6 +9,7 @@ use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\Image;
 use App\Entity\Booking;
+use App\Entity\Comment;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -80,7 +81,7 @@ class AppFixtures extends Fixture
 
             $title = $faker->sentence();
             // $slug = $slugify->slugify($title);
-            $coverImage = $faker->imageUrl(1000, 350);
+            // $coverImage = set(1000, 350);
             $introduction = $faker->paragraph(2);
             $content = '<p>' . join('</p><p>', $faker->paragraphs(5)) . '</p>' ;
 
@@ -88,7 +89,7 @@ class AppFixtures extends Fixture
 
             $ad->setTitle($title)
                 // ->setSlug($slug)
-                ->setCoverImage($coverImage)
+                ->setCoverImage("http://placeimg.com/1000/300/architecture")
                 ->setIntroduction($introduction)
                 ->setContent($content)
                 ->setPrice(mt_rand(40, 200))
@@ -98,7 +99,7 @@ class AppFixtures extends Fixture
             for ($j=0; $j <= mt_rand(2, 5) ; $j++) { 
                 $image = new Image();
 
-                $image->setUrl($faker->imageUrl())
+                $image->setUrl("http://placeimg.com/1000/300/architecture")
                     ->setCaption($faker->sentence())
                     ->setAd($ad);
 
@@ -131,6 +132,19 @@ class AppFixtures extends Fixture
 
 
                 $manager->persist($booking);
+
+                // Gère les commentaires
+                if (mt_rand(0, 1)) {
+                    $comment = new Comment();
+                    $comment->setContent($faker->paragraph())
+                            ->setRating(mt_rand(1, 5))
+                            ->setAuthor($booker)
+                            ->setAd($ad);
+
+                    $manager->persist($comment);
+                }
+                
+                
             }
     
             $manager->persist($ad);

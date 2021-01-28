@@ -5,7 +5,13 @@
         <div class="card bg-light mb-3">
             <div class="card-header text-center">
                 {{ ad.rooms }} chambres, <strong>{{ ad.price }}&euro; / Nuit</strong> <br>
-                <small>Pas encore noté</small>
+
+                {% if ad.comments|length > 0 %}
+                    <small>{% include "partials/_rating.html.twig" with {'rating' : ad.avgRating } %}</small>
+                {% else %}
+                    <small>Pas encore notée</small>
+                {% endif %}
+                
             </div>
             {# Pour passer un paramètre dans une route path #}
             <a href="{{ url }}">

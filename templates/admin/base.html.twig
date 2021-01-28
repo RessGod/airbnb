@@ -10,14 +10,14 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-         {{ include('/partials/_nav.html.twig') }}
+         {{ include('/admin/partials/header.html.twig') }}
             {# <div class="container"> #}
 
                 {{ include('/partials/_flash_message.html.twig') }}
                 {% block body %}{% endblock %}
             {# </div> #}
         
-        {{ include('/partials/footer.html.twig') }}
+        {{ include('/admin/partials/footer.html.twig') }}
 
         <script src="/js/jquery.min.js"></script>
         <script src="/js/popper.min.js"></script>
