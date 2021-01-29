@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Ad;
 use App\Form\AdType;
 use App\Repository\AdRepository;
+use App\Service\PaginationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,12 +15,31 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminAdController extends AbstractController
 {
     /**
-     * @Route("/admin/ads", name="app_admin_ads")
+     * @Route("/admin/ads/{page<\d+>?1}", name="app_admin_ads")
      */
-    public function index(AdRepository $repo): Response
+    public function index(AdRepository $repo, $page, PaginationService $pagination): Response
     {
+        // $limit = 10;
+
+        // // Calcul de le nombre des annonces à afficher
+        // $start = $page * $limit - $limit;
+        // // 1 = 1 * 10 = 10 - 10 = 0 => start
+        // // 2 = 2 * 10 = 20 - 10 = 10 => start
+
+        // // Pour avoir le nombre total de mes annonces
+        // $total = count($repo->findAll());
+
+        // // Pour arrondir a l'entier supérieur au cas ou on a des nombres a virgul tel que 3.4 = 4
+        // $pages = ceil($total / $limit);
+
+        $pagination->setEntityClass(Ad::class)
+                    ->setPage($page);      
+
         return $this->render('admin/ad/index.html.twig', [
-            'ads' => $repo->findAll()
+            // 'ads' => $repo->findBy([], [], $limit, $start),
+            // 'pages' => $pages,
+            // 'page' => $page
+            'pagination' => $pagination
         ]);
     }
 

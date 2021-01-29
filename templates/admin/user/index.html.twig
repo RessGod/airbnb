@@ -1,0 +1,54 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des utilisateurs{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-5">Administration des utilisateurs</h1>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom et prénom</th>
+                    <th>Email</th>
+                    <th>Introduction</th>
+                    <th>Annonces</th>
+                    <th>Réservations</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in pagination.data %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>
+                            <img src="{{ user.picture }}" alt="Photo de {{ user.fullName }}" class="avatar avatar-mini">
+                            {{ user.fullName }}
+                        </td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {{ user.introduction }}
+                        </td>
+                        <td>
+                            {{ user.ads | length }}
+                        </td>
+                        <td>
+                            {{ user.bookings | length }}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_admin_user_edit', {'id': user.id }) }}" class="btn btn-primary">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                            <a href="{{ path('app_admin_user_edit', {'id': user.id }) }}" class="btn btn-danger">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        {{ pagination.display() }}
+
+    </div>
+{% endblock %}
