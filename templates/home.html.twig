@@ -18,111 +18,33 @@
   <h2 class="h1 mb-4 mt-3">Nos appartements star!</h2>
 
   <div class="row">
-    <div class="col-md-4">
-
-        <div class="card bg-light mb-3">
-            <div class="card-header text-center">
-                3 chambres, <strong>49&euro; / Nuit</strong> <br>
-                <small>Pas encore noté</small>
-            </div>
-
-            <img src="/img/m.jpg" alt="Photo de la maison" style="height: 200px; width: 100%; display: block">
-
-            <div class="card-body">
-                <h4 class="card-title">
-                    Appartement de ouf
-                </h4>
-                <p class="card-text">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor sed molestias qui! Ex aperiam explicabo provident dicta quos eligendi quia.
-                </p>
-                <a href="#" class="btn btn-secondary float-right">En savoir plus</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="card bg-light mb-3">
-            <div class="card-header text-center">
-                3 chambres, <strong>49&euro; / Nuit</strong> <br>
-                <small>Pas encore noté</small>
-            </div>
-
-            <img src="/img/m.jpg" alt="Photo de la maison" style="height: 200px; width: 100%; display: block">
-
-            <div class="card-body">
-                <h4 class="card-title">
-                    Appartement de ouf
-                </h4>
-                <p class="card-text">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor sed molestias qui! Ex aperiam explicabo provident dicta quos eligendi quia.
-                </p>
-                <a href="#" class="btn btn-secondary float-right">En savoir plus</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="card bg-light mb-3">
-            <div class="card-header text-center">
-                3 chambres, <strong>49&euro; / Nuit</strong> <br>
-                <small>Pas encore noté</small>
-            </div>
-
-            <img src="/img/m.jpg" alt="Photo de la maison" style="height: 200px; width: 100%; display: block">
-
-            <div class="card-body">
-                <h4 class="card-title">
-                    Appartement de ouf
-                </h4>
-                <p class="card-text">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor sed molestias qui! Ex aperiam explicabo provident dicta quos eligendi quia.
-                </p>
-                <a href="#" class="btn btn-secondary float-right">En savoir plus</a>
-            </div>
-        </div>    
-    </div>
-
+    {% for data in ads %}
+       {% include "partials/_ad.html.twig" with {'ad': data.annonce} %} 
+    {% endfor %}
   </div>
 
     <h2 class="h1 mb-4 mt-3">Nos propriétaires star !</h2>
 
     <div class="row">
+        {% for data in users %}
+            <div class="col-md-6">
+                <div class="card border-secondary mb-3">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            {{ data.user.fullName }}
+                        </h4>
 
-        <div class="col-md-6">
-            <div class="card border-secondary mb-3">
-                <div class="card-body">
-                    <h4 class="card-title">
-                        RIBA Sergino
-                    </h4>
+                        <hr>
 
-                    <hr>
-
-                    <div class="card-text">
-                        <img src="/img/avatar.PNG" alt="Avatar" class="float-left mr-3 rounded-circle" style="height: 64%; width: 64%; ">
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam, excepturi?</p>
-                        <a href="#" class="btn btn-success float-right">En savoir plus</a>
+                        <div class="card-text">
+                            <img src="{{ data.user.picture }}" alt="Avatar de {{ data.user.fullName }}" class="avatar avatar-medium">
+                            {{ data.user.introduction }}
+                            <a href="{{ path('app_user_show', {'slug': data.user.slug}) }}" class="btn btn-success float-right">En savoir plus</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card border-secondary mb-3">
-                <div class="card-body">
-                    <h4 class="card-title">
-                        RIBA Sergino
-                    </h4>
-
-                    <hr>
-
-                    <div class="card-text">
-                        <img src="/img/avatar.PNG" alt="Avatar" class="float-left mr-3 rounded-circle" style="height: 64%; width: 64%; ">
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam, excepturi?</p>
-                        <a href="#" class="btn btn-success float-right">En savoir plus</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
 
     </div>
 </div>

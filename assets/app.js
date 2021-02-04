@@ -6,7 +6,22 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.css';
+import './styles/app.scss';
+
+// import 'bootstrap';
 
 // start the Stimulus application
-import './bootstrap';
+// import './bootstrap';
+
+// Utilisation de Jquery dans encore
+
+const $ = require('jquery');
+
+global.$ = global.JQuery = $;
+
+require('bootstrap');
+
+require('@fortawesome/fontawesome-free/css/all.min.css');
+require('@fortawesome/fontawesome-free/js/all.js');
+require('./css/bootstrap-datepicker.css');
+
