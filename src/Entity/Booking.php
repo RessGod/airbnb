@@ -10,7 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BookingRepository::class)
- * @ORM\Table(name = "bookings")
  * @ORM\HaslifecycleCallbacks()
  */
 class Booking
