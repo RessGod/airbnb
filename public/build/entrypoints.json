@@ -1,0 +1,31 @@
+{
+  "entrypoints": {
+    "app": {
+      "js": [
+        "/build/runtime.d94b3b43.js",
+        "/build/1.30ecea07.js",
+        "/build/2.552f3d5e.js",
+        "/build/app.5aba4b99.js"
+      ],
+      "css": [
+        "/build/2.d0de19bb.css",
+        "/build/app.516b22e3.css"
+      ]
+    },
+    "ad": {
+      "js": [
+        "/build/runtime.d94b3b43.js",
+        "/build/0.fda6ef42.js",
+        "/build/ad.491dfb18.js"
+      ]
+    },
+    "datePicker": {
+      "js": [
+        "/build/runtime.d94b3b43.js",
+        "/build/1.30ecea07.js",
+        "/build/0.fda6ef42.js",
+        "/build/datePicker.ddd8f4bf.js"
+      ]
+    }
+  }
+}
